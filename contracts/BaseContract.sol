@@ -25,7 +25,7 @@ abstract contract BaseContract {
     // modifiers
     modifier OnlyOwner() {
         if (msg.sender != owner) {
-            console.log("check msg.sender:", msg.sender);
+            // console.log("check msg.sender:", msg.sender);
             revert UnauthorizedErr(msg.sender);
         }
         _;

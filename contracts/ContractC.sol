@@ -24,6 +24,7 @@ contract ContractC is BaseContract {
     event TargetContractAddressUpdated(address);
     event DepositCallErrEvent();
     event DepositCallSuccessEvent();
+    event SendSuccessEvent(uint txKind, uint amount);
 
     // modifiers
     // external functions
@@ -47,10 +48,66 @@ contract ContractC is BaseContract {
         return ok;
     }
 
+    /// send amount to target address
+    // NOT RECOMMEND via send
+    function sendAmount(uint txKind) external payable returns (bool) {
+        address payable recipient = payable(contractAddress);
+        bool sent = recipient.send(msg.value);
+        // console.log("income msg.sender:", msg.sender);
+        console.log("sendAmount", sent, gasleft());
+        // require(sent, "Failed to send Ether");
+        if (sent) {
+            emit SendSuccessEvent(txKind, msg.value);
+            return true;
+        }
+        return false;
+    }
+
+    /// transfer amount to target address
+    // NOT RECOMMEND via transfer
+    function transferAmount(uint txKind) external payable returns (bool) {
+        payable(contractAddress).transfer(msg.value);
+        emit SendSuccessEvent(txKind, msg.value);
+        return true;
+    }
+
+    /// call to transfer amount to target address
+    // RECOMMEND via call
+    function sendCall(uint txKind) public payable returns (bool) {
+        address payable recipient = payable(contractAddress);
+        // Call returns a boolean value indicating success or failure.
+        // This is the current recommended method to use.
+        (bool sent, bytes memory data) = recipient.call{ value: msg.value }("");
+        // console.log(sent);
+        // console.logBytes(data);
+        // require(sent, "Failed to send Ether");
+        if (!sent) {
+            handleError(data);
+        }
+        emit SendSuccessEvent(txKind, msg.value);
+        return true;
+    }
+
+    /// call to transfer amount to target address
+    // RECOMMEND via call
+    function sendReceipientCall(address payable recipient, uint txKind) public payable returns (bool) {
+        // Call returns a boolean value indicating success or failure.
+        // This is the current recommended method to use.
+        (bool sent, bytes memory data) = recipient.call{ value: msg.value }("");
+        // console.log(sent);
+        // console.logBytes(data);
+        // require(sent, "Failed to send Ether");
+        if (!sent) {
+            handleError(data);
+        }
+        emit SendSuccessEvent(txKind, msg.value);
+        return true;
+    }
+
     /// deposit via call, using different sender to invoke call,
     /// the call will always failed given other side's verification on sender
     function depositCall(uint256 amount_) external returns (bool) {
-        console.log("income msg.sender:", msg.sender);
+        // console.log("income msg.sender:", msg.sender);
         (bool flag, bytes memory data) = contractAddress.call(abi.encodeWithSignature("deposit(uint256)", amount_));
         if (flag) {
             emit DepositCallSuccessEvent();
@@ -77,7 +134,7 @@ contract ContractC is BaseContract {
     // public functions
     // internal functions
     function handleError(bytes memory data) internal pure {
-        console.logBytes(data);
+        // console.logBytes(data);
         //
         if (data.length == 0) {
             revert DepoistCallUnknowErr();

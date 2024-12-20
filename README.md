@@ -26,3 +26,11 @@ npx hardhat vars set ACCOUNT_PRIVATE_KEY
 ```shell
 npx hardhat vars set INFURA_API_KEY
 ```
+
+## Solidity Cheatsheet
+
+[Cheatsheet](https://docs.soliditylang.org/en/develop/cheatsheet.html)
+
+## Reference
+
+[Discussion 6151 on Receive Test](https://github.com/smartcontractkit/full-blockchain-solidity-course-js/discussions/6151)

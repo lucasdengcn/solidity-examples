@@ -69,6 +69,40 @@ describe("ContractC", function () {
         });
     });
 
+    describe("SendEther", function () {
+        it("sendCall will be success given valid ether amount", async function () {
+            const amountToSend = hre.ethers.parseEther("1")
+            const { contractC, owner, contractA, otherAccount } = await loadFixture(loadFixtureContracts);
+            // must call with {value: amount}
+            await expect(contractC.connect(otherAccount).sendReceipientCall(contractA.getAddress(), 1, {value: amountToSend}))
+                .to.emit(contractC, "SendSuccessEvent")
+            expect(await contractA.getBalance()).to.be.equal(amountToSend);
+        });
+        it("sendCall will be success given valid ether amount", async function () {
+            const amountToSend = hre.ethers.parseEther("1")
+            const { contractC, owner, contractA, otherAccount } = await loadFixture(loadFixtureContracts);
+            // must call with {value: amount}
+            await expect(contractC.connect(otherAccount).sendCall(1, {value: amountToSend}))
+                    .to.emit(contractC, "SendSuccessEvent");
+            expect(await contractA.getBalance()).to.be.equal(amountToSend);
+        });
+        it("TransferAmount will be success given valid ether amount", async function () {
+            const amountToSend = hre.ethers.parseEther("1")
+            const { contractC, owner, contractA } = await loadFixture(loadFixtureContracts);
+            await expect(contractC.transferAmount(1, {value: amountToSend}))
+                    .to.emit(contractC, "SendSuccessEvent");
+            expect(await contractA.getBalance()).to.be.equal(amountToSend);
+        });
+        it("sendAmount will be success given valid ether amount", async function () {
+            const amountToSend = hre.ethers.parseEther("1")
+            const { contractC, owner, contractA } = await loadFixture(loadFixtureContracts);
+            // must call with {value: amount}
+            await expect(contractC.sendAmount(1, {value: amountToSend}))
+                    .to.emit(contractC, "SendSuccessEvent");
+            expect(await contractA.getBalance()).to.be.equal(amountToSend);
+        });
+    });
+
     describe("DepoistCall", function () {
         it("DepoistCall will be failed given sender is different from owner", async function () {
             const { contractC, owner, contractA } = await loadFixture(loadFixtureContracts);

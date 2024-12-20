@@ -88,4 +88,85 @@ describe("ContractA", function () {
 
     });
 
+    describe("Receive", function () {
+        it("Should receive Ether using receive", async function () {
+            const { contractA, owner, otherAccount } = await loadFixture(loadFixtureContracts);
+            const initialBalance = await hre.ethers.provider.getBalance(contractA.getAddress())
+
+            // Send Ether to the contract using a simple Ether transfer without data
+            const amountToSend = hre.ethers.parseEther("1")
+            await otherAccount.sendTransaction({ to: contractA.getAddress(), value: amountToSend })
+
+            // Check if the contract's balance increased by the sent amount
+            const finalBalance = await hre.ethers.provider.getBalance(contractA.getAddress())
+            expect(finalBalance).to.equal(initialBalance + amountToSend)
+        });
+        //
+        it("Should emit AmountReceived event when receiving Ether", async function () {
+            const { contractA, owner, otherAccount } = await loadFixture(loadFixtureContracts);
+            // Send Ether to the contract using a simple Ether transfer without data
+            const amountToSend = hre.ethers.parseEther("1")
+            //
+            expect(otherAccount.sendTransaction({ to: contractA.getAddress(), value: amountToSend }))
+                .to.be.emit(contractA, "AmountReceived")
+                .withArgs(otherAccount, amountToSend);
+        });
+        //
+        it("Should emit AmountReceived event when receiving Ether", async function () {
+            const { contractA, owner, otherAccount } = await loadFixture(loadFixtureContracts);
+            // Send Ether to the contract using a simple Ether transfer without data
+            const amountToSend = hre.ethers.parseEther("1")
+            //            
+            const tx = await otherAccount.sendTransaction({ to: contractA.getAddress(), value: amountToSend });
+            await tx.wait();
+            //
+            const targetEvent = contractA.getEvent("AmountReceived");
+            const events = await contractA.queryFilter(targetEvent);
+            expect(events.length).to.equal(1);
+            const event = events[0];
+            // console.log(event);
+            expect(event.args.sender).to.equal(otherAccount.address);
+            expect(event.args.amount).to.equal(amountToSend);
+            expect(event.args.gas).to.above(0);
+        });
+    });
+    //
+    describe("Fallback", async () => {
+        it("Should receive Ether using fallback", async function () {
+            const { contractA, owner, otherAccount } = await loadFixture(loadFixtureContracts);
+            const initialBalance = await hre.ethers.provider.getBalance(contractA.getAddress())
+
+            // Send Ether to the contract using a simple Ether transfer without data
+            const amountToSend = hre.ethers.parseEther("1")
+            await otherAccount.sendTransaction({ to: contractA.getAddress(), value: amountToSend })
+
+            // Check if the contract's balance increased by the sent amount
+            const finalBalance = await hre.ethers.provider.getBalance(contractA.getAddress())
+            expect(finalBalance).to.equal(initialBalance + amountToSend)
+        });
+        it("Should emit AmountReceivedFallback event when receiving Ether", async function () {
+            const { contractA, owner, otherAccount } = await loadFixture(loadFixtureContracts);
+            // Send Ether to the contract using a simple Ether transfer without data
+            const amountToSend = hre.ethers.parseEther("1")
+            //
+            expect(otherAccount.sendTransaction({ to: contractA.getAddress(), value: amountToSend, data: "Fallback" }))
+                .to.be.emit(contractA, "AmountReceivedFallback")
+                .withArgs(otherAccount, amountToSend);
+        });
+    });
+    //
+    describe("Balance", async () => {
+        it("should return the correct contract balance", async function () {
+            const { contractA, owner, otherAccount } = await loadFixture(loadFixtureContracts);
+
+            // Get the contract's balance using the getBalance function
+            const contractBalance = await contractA.getBalance()
+
+            // Get the actual balance from the provider
+            const actualBalance = await hre.ethers.provider.getBalance(contractA.getAddress())
+
+            expect(contractBalance).to.equal(actualBalance)
+        })
+    });
+
 });

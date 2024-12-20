@@ -1,0 +1,61 @@
+EventLog {
+  provider: HardhatEthersProvider {
+    _hardhatProvider: LazyInitializationProviderAdapter {
+      _providerFactory: [AsyncFunction (anonymous)],
+      _emitter: [EventEmitter],
+      _initializingPromise: [Promise],
+      provider: [BackwardsCompatibilityProviderAdapter]
+    },
+    _networkName: 'hardhat',
+    _blockListeners: [],
+    _transactionHashListeners: Map(0) {},
+    _eventListeners: []
+  },
+  transactionHash: '0xfc9db4466a353c376dc26b0e19bac183155bed71845a54f17163577465ae0161',
+  blockHash: '0x32075bd2953d395a653e560f99f4be583721b08bcab14ace2f9e7b29ae23f6c5',
+  blockNumber: 2,
+  removed: false,
+  address: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
+  data: '0x00000000000000000000000070997970c51812dc3a010c7d01b50e0d17dc79c80000000000000000000000000000000000000000000000000de0b6b3a76400000000000000000000000000000000000000000000000000000000000001c97138',
+  topics: [
+    '0xcda619981924cb5cfd654b61cf0f4ef8299cee9f2f1e9cb23774af6f11a7f905'
+  ],
+  index: 0,
+  transactionIndex: 0,
+  interface: Interface {
+    fragments: [
+      [ConstructorFragment], [ErrorFragment],
+      [ErrorFragment],       [ErrorFragment],
+      [EventFragment],       [EventFragment],
+      [EventFragment],       [FallbackFragment],
+      [FunctionFragment],    [FunctionFragment],
+      [FunctionFragment],    [FunctionFragment],
+      [FunctionFragment],    [FunctionFragment],
+      [FunctionFragment],    [FunctionFragment],
+      [FallbackFragment]
+    ],
+    deploy: ConstructorFragment {
+      type: 'constructor',
+      inputs: [Array],
+      payable: false,
+      gas: null
+    },
+    fallback: FallbackFragment {
+      type: 'fallback',
+      inputs: [Array],
+      payable: true
+    },
+    receive: true
+  },
+  fragment: EventFragment {
+    type: 'event',
+    inputs: [ [ParamType], [ParamType], [ParamType] ],
+    name: 'AmountReceived',
+    anonymous: false
+  },
+  args: Result(3) [
+    '0x70997970C51812dc3A010C7d01b50e0d17dc79C8',
+    1000000000000000000n,
+    29978936n
+  ]
+}
