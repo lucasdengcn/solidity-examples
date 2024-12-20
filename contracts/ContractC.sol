@@ -162,10 +162,10 @@ contract ContractC is BaseContract {
         bytes4 receivedSelector = bytes4(data);
         bool matched = isUnauthorizedErr(receivedSelector);
         if (matched) {
-            // data is 0xf128e5cf0000000000000000000000009fe46736679d2d9a65f0992f2272de9f3c7fa6e0
+            // OR bubble the raw Error as following:
             assembly {
                 // skips the length field
-                revert(add(32, data), mload(data))
+                revert(add(data, 32), mload(data))
             }
         }
         matched = isAmountOutOfRangeErr(receivedSelector);
@@ -173,10 +173,9 @@ contract ContractC is BaseContract {
             assembly {
                 // Look for revert reason and bubble it up if present
                 // skips the length field, this revert will bubble the orignal error from call/delegatecall
-                revert(add(32, data), mload(data))
+                revert(add(data, 32), mload(data))
             }
         }
         revert DepoistCallUnknowErr();
     }
-    // private functions
 }

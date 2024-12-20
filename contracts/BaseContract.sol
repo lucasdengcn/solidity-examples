@@ -20,7 +20,7 @@ abstract contract BaseContract {
 
     // errors
     error UnauthorizedErr(address);
-    error AmountOutOfRangeErr(uint256, uint256);
+    error AmountOutOfRangeErr(uint256 limit, uint256 request);
     error ReentranceErr(address);
     // modifiers
     modifier OnlyOwner() {
