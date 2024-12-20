@@ -28,6 +28,18 @@ contract ContractA is BaseContract {
         emit AmountReceivedFallback(msg.sender, msg.value, gasleft());
     }
 
+    function errorThrow(uint256 amount_) public view returns (bool) {
+        if (amount_ < 100) {
+            return true;
+        }
+        require(amount_ > 200, "Amount <= 200");
+        assert(amount_ > 300);
+        if (amount_ < 400) {
+            revert ReentranceErr(msg.sender);
+        }
+        return true;
+    }
+
     function deposit(uint256 amount_) external OnlyOwner AmountInLimit(amount_) Mutex returns (bool) {
         total += amount_;
         emit AmountDeposited(amount_);

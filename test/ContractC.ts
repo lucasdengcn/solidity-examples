@@ -134,4 +134,32 @@ describe("ContractC", function () {
             expect(await contractA.total(), "A total should be zero").to.be.equal(0);
         });
     });
+
+    // error handling
+    describe("ErrorHandling", function () {
+        it("Should be true when amount < 100", async function () {
+            const { contractC, owner, contractA } = await loadFixture(loadFixtureContracts);
+            expect(await contractC.tryCatchExternalCall(80))
+                .to.be.equal(0);
+        });
+
+        it("Should be error1 when 100 < amount < 200", async function () {
+            const { contractC, owner, contractA } = await loadFixture(loadFixtureContracts);
+            expect(await contractC.tryCatchExternalCall(120))
+                .to.be.equal(1);
+        });
+
+        it("Should be error2 when 200 < amount < 300", async function () {
+            const { contractC, owner, contractA } = await loadFixture(loadFixtureContracts);
+            expect(await contractC.tryCatchExternalCall(220))
+                .to.be.equal(2);
+        });
+
+        it("Should be error3 when 300 < amount < 400", async function () {
+            const { contractC, owner, contractA } = await loadFixture(loadFixtureContracts);
+            expect(await contractC.tryCatchExternalCall(320))
+                .to.be.equal(3);
+        });
+
+    });
 });

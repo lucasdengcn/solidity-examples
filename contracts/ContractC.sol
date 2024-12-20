@@ -3,6 +3,7 @@ pragma solidity >=0.8.0 <0.9.0;
 
 import "hardhat/console.sol";
 import "./BaseContract.sol";
+import "./ContractA.sol";
 
 contract ContractC is BaseContract {
     /// states
@@ -10,10 +11,13 @@ contract ContractC is BaseContract {
     //
     // address internal owner;
     address internal contractAddress;
+    //
+    ContractA contractA;
 
     //
     constructor(uint256 limit_) BaseContract(limit_) {
         limitCopy = limit_;
+        contractA = new ContractA(limit_);
     }
 
     // errors
@@ -46,6 +50,22 @@ contract ContractC is BaseContract {
         // console.logBytes(resp);
         bool ok = abi.decode(resp, (bool));
         return ok;
+    }
+
+    /// error catch and processing
+    function tryCatchExternalCall(uint256 amount_) public view returns (uint) {
+        try contractA.errorThrow(amount_) returns (bool) {
+            return 0;
+        } catch Error(string memory reason) {
+            console.log(reason);
+            return 1;
+        } catch Panic(uint errorCode) {
+            console.log(errorCode);
+            return 2;
+        } catch (bytes memory err) {
+            console.logBytes(err);
+            return 3;
+        }
     }
 
     /// send amount to target address
