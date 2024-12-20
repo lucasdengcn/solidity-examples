@@ -27,6 +27,13 @@ npx hardhat vars set ACCOUNT_PRIVATE_KEY
 npx hardhat vars set INFURA_API_KEY
 ```
 
+## Dependencies
+
+```shell
+npm install dotenv
+npm install @openzeppelin/contracts
+```
+
 ## Solidity Cheatsheet
 
 [Cheatsheet](https://docs.soliditylang.org/en/develop/cheatsheet.html)
