@@ -1,0 +1,33 @@
+ContractTransactionResponse {
+    provider: HardhatEthersProvider {
+      _hardhatProvider: LazyInitializationProviderAdapter {
+        _providerFactory: [AsyncFunction (anonymous)],
+        _emitter: [EventEmitter],
+        _initializingPromise: [Promise],
+        provider: [BackwardsCompatibilityProviderAdapter]
+      },
+      _networkName: 'hardhat',
+      _blockListeners: [],
+      _transactionHashListeners: Map(0) {},
+      _eventListeners: []
+    },
+    blockNumber: 5,
+    blockHash: '0xf66afac3178059b6f518eb34721d7323b2054cf99de7f7780d5e7183cecef691',
+    index: undefined,
+    hash: '0xc52bad621b2e95bb195209c65475cb8f5e261afdcb71ad98aa424ccc0861d73a',
+    type: 2,
+    to: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
+    from: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
+    nonce: 4,
+    gasLimit: 30000000n,
+    gasPrice: 1518406648n,
+    maxPriorityFeePerGas: 1000000000n,
+    maxFeePerGas: 2036813296n,
+    maxFeePerBlobGas: null,
+    data: '0xbdf3e088000000000000000000000000cf7ed3acca5a467e9e704c703e8d87f634fb0fc9',
+    value: 0n,
+    chainId: 31337n,
+    signature: Signature { r: "0x3db91ae64339a1759467dc808110f15db9680d3ef0df7b10a0368429c214e74b", s: "0x04ea8182977b53562d18ee72723d2f599b4e210c3fd913ceec9d75b612148a78", yParity: 0, networkV: null },
+    accessList: [],
+    blobVersionedHashes: null
+  }

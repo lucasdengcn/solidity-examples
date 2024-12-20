@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.8.4;
+pragma solidity >=0.8.0 <0.9.0;
+
 contract BlindAuction {
     struct Bid {
         bytes32 blindedBid;
@@ -45,11 +46,7 @@ contract BlindAuction {
         _;
     }
 
-    constructor(
-        uint biddingTime,
-        uint revealTime,
-        address payable beneficiaryAddress
-    ) {
+    constructor(uint biddingTime, uint revealTime, address payable beneficiaryAddress) {
         beneficiary = beneficiaryAddress;
         biddingEnd = block.timestamp + biddingTime;
         revealEnd = biddingEnd + revealTime;
@@ -64,15 +61,8 @@ contract BlindAuction {
     /// not the exact amount are ways to hide the real bid but
     /// still make the required deposit. The same address can
     /// place multiple bids.
-    function bid(bytes32 blindedBid)
-        external
-        payable
-        onlyBefore(biddingEnd)
-    {
-        bids[msg.sender].push(Bid({
-            blindedBid: blindedBid,
-            deposit: msg.value
-        }));
+    function bid(bytes32 blindedBid) external payable onlyBefore(biddingEnd) {
+        bids[msg.sender].push(Bid({ blindedBid: blindedBid, deposit: msg.value }));
     }
 
     /// Reveal your blinded bids. You will get a refund for all
@@ -82,11 +72,7 @@ contract BlindAuction {
         uint[] calldata values,
         bool[] calldata fakes,
         bytes32[] calldata secrets
-    )
-        external
-        onlyAfter(biddingEnd)
-        onlyBefore(revealEnd)
-    {
+    ) external onlyAfter(biddingEnd) onlyBefore(revealEnd) {
         uint length = bids[msg.sender].length;
         require(values.length == length);
         require(fakes.length == length);
@@ -95,8 +81,7 @@ contract BlindAuction {
         uint refund;
         for (uint i = 0; i < length; i++) {
             Bid storage bidToCheck = bids[msg.sender][i];
-            (uint value, bool fake, bytes32 secret) =
-                    (values[i], fakes[i], secrets[i]);
+            (uint value, bool fake, bytes32 secret) = (values[i], fakes[i], secrets[i]);
             if (bidToCheck.blindedBid != keccak256(abi.encodePacked(value, fake, secret))) {
                 // Bid was not actually revealed.
                 // Do not refund deposit.
@@ -104,8 +89,7 @@ contract BlindAuction {
             }
             refund += bidToCheck.deposit;
             if (!fake && bidToCheck.deposit >= value) {
-                if (placeBid(msg.sender, value))
-                    refund -= value;
+                if (placeBid(msg.sender, value)) refund -= value;
             }
             // Make it impossible for the sender to re-claim
             // the same deposit.
@@ -130,10 +114,7 @@ contract BlindAuction {
 
     /// End the auction and send the highest bid
     /// to the beneficiary.
-    function auctionEnd()
-        external
-        onlyAfter(revealEnd)
-    {
+    function auctionEnd() external onlyAfter(revealEnd) {
         if (ended) revert AuctionEndAlreadyCalled();
         emit AuctionEnded(highestBidder, highestBid);
         ended = true;
@@ -143,9 +124,7 @@ contract BlindAuction {
     // This is an "internal" function which means that it
     // can only be called from the contract itself (or from
     // derived contracts).
-    function placeBid(address bidder, uint value) internal
-            returns (bool success)
-    {
+    function placeBid(address bidder, uint value) internal returns (bool success) {
         if (value <= highestBid) {
             return false;
         }

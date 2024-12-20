@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.8.4;
+pragma solidity >=0.8.0 <0.9.0;
 contract Purchase {
     uint public value;
     address payable public seller;

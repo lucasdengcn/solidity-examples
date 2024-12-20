@@ -16,6 +16,7 @@ Vars
 
 ```shell
 npx hardhat vars set ETHERSCAN_API_KEY
+
 ```
 
 ```shell
