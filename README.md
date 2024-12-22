@@ -27,12 +27,22 @@ npx hardhat vars set ACCOUNT_PRIVATE_KEY
 npx hardhat vars set INFURA_API_KEY
 ```
 
+## Foundary
+
+[Foundry](https://hardhat.org/hardhat-runner/docs/advanced/hardhat-and-foundry)
+
 ## Dependencies
 
 ```shell
 npm install dotenv
 npm install @openzeppelin/contracts
+npm add @uniswap/v3-periphery @uniswap/v3-core
 ```
+
+```shell
+npm install @uniswap/permit2-sdk
+```
+
 
 ## Solidity Cheatsheet
 

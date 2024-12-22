@@ -3,6 +3,8 @@ dotenv.config();
 
 import { HardhatUserConfig, task, vars } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
+import "@nomicfoundation/hardhat-foundry";
+
 
 // const ETHERSCAN_API_KEY =  vars.get("ETHERSCAN_API_KEY")
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || vars.get("ETHERSCAN_API_KEY")
