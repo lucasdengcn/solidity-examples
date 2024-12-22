@@ -6,7 +6,7 @@ import { anyValue } from "@nomicfoundation/hardhat-chai-matchers/withArgs";
 import { expect } from "chai";
 import hre from "hardhat";
 
-describe("SilverToken", function () {
+describe("TokenPermitApp", function () {
     let owner: any, spender: any, user1: any;
     //
     const OWNER_MINT = 100_000;
@@ -18,7 +18,7 @@ describe("SilverToken", function () {
         this.contractToken = await Contract0.deploy(OWNER_MINT);
         await this.contractToken.waitForDeployment();
         //
-        const Contract = await hre.ethers.getContractFactory("SilverToken");
+        const Contract = await hre.ethers.getContractFactory("TokenPermitApp");
         this.contractSpender = await Contract.deploy(await this.contractToken.getAddress());
         await this.contractSpender.waitForDeployment();
         spender = await this.contractSpender.getAddress();

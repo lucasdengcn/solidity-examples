@@ -5,16 +5,21 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
 import "./GldToken.sol";
 
-contract SilverToken is ERC20Permit {
+contract TokenPermitApp {
     // using SafeERC20 for IERC20;
     address public contractOwner;
     address public cTokenAddress;
 
     //
-    constructor(address gldTokenAddress) ERC20("Silver", "SIL") ERC20Permit("Silver") {
+    constructor(address gldTokenAddress) {
         cTokenAddress = gldTokenAddress;
         contractOwner = msg.sender;
     }
+
+    /**
+     * @dev Mismatched signature.
+     */
+    error ERC2612InvalidSigner(address signer, address owner);
 
     // external functions
     function mint(uint256 amount, uint256 deadline, uint8 v, bytes32 r, bytes32 s) public {
