@@ -24,6 +24,8 @@ describe("GldToken", function () {
         await this.contract.mint(user3.address, USER_LIMIT);
         await this.contract.mint(user4.address, USER_LIMIT);
         //
+        console.log("owner:", owner.address);
+        console.log("deployed contract address:", await this.contract.getAddress());
     });
 
     describe("Deployment", function () {
