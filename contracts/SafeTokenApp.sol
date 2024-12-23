@@ -5,90 +5,40 @@ import { ERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import { ERC20Permit } from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
-contract SafeTokenApp is ERC20Permit {
+contract SafeTokenApp {
     //
     using SafeERC20 for IERC20;
+    using SafeERC20 for IERC1363;
     // states
-    uint256 public limit;
-    address public owner;
-    bool internal mutexLocked;
+    address public token;
 
     //
-    constructor(uint256 limit_) ERC20("Gold", "GLD") ERC20Permit("Gold") {
-        limit = limit_;
-        owner = msg.sender;
-        _mint(msg.sender, limit_);
+    constructor(address gldTokenAddress) {
+        token = gldTokenAddress;
     }
 
-    // events
-    event TokenMinedEvent(address to_, uint256 amount_);
-    // errors
-    error UnauthorizedErr(address);
-    error ReentranceErr(address);
-    // modifiers
-    modifier OwnerOnly() {
-        if (msg.sender != owner) {
-            revert UnauthorizedErr(msg.sender);
-        }
-        _;
-    }
-    modifier Mutex() {
-        if (mutexLocked) {
-            revert ReentranceErr(msg.sender);
-            return;
-        }
-        mutexLocked = true;
-        _;
-        mutexLocked = false;
+    function transfer(address to, uint256 amount) public {
+        // transfer contract's token to address
+        IERC20(token).safeTransfer(to, amount);
     }
 
-    /// external functions
-    function isLocked() external view returns (bool) {
-        return mutexLocked;
+    function transferFrom(address from, address to, uint256 amount) public {
+        // spending the approval given by `from` to the calling contract
+        // allowance (from --> contract)
+        // transfer (contract --> to)
+        IERC20(token).safeTransferFrom(from, to, amount);
     }
 
-    function forceLock() external returns (bool) {
-        if (mutexLocked) {
-            return false;
-        }
-        mutexLocked = true;
-        return true;
+    function approve(address to, uint256 amount) public {
+        // allowance (contract --> to)
+        IERC20(token).forceApprove(to, amount);
     }
 
-    function mint(address to_, uint256 amount_) external OwnerOnly {
-        _mint(to_, amount_);
-        emit TokenMinedEvent(to_, amount_);
+    function increaseAllowance(address to, uint256 amount) public {
+        IERC20(token).safeIncreaseAllowance(to, amount);
     }
 
-    /// internal function
-    function _mintMinerReward() internal {
-        // _mint(block.coinbase, 1000);
-    }
-
-    function _update(address from, address to, uint256 value) internal virtual override {
-        if (!(from == address(0) && to == block.coinbase)) {
-            _mintMinerReward();
-        }
-        super._update(from, to, value);
-    }
-
-    // permit transfer token from msg.sender to spender
-    function tryPermitTransfer(
-        address sender,
-        address spender,
-        uint256 value,
-        uint256 deadline,
-        uint8 v,
-        bytes32 r,
-        bytes32 s
-    ) public {
-        if (sender == address(0)) {
-            revert ERC20InvalidApprover(address(0));
-        }
-        if (spender == address(0)) {
-            revert ERC20InvalidSpender(address(0));
-        }
-        super.permit(sender, spender, value, deadline, v, r, s);
-        super._transfer(sender, spender, value);
+    function decreaseAllowance(address to, uint256 amount) public {
+        IERC20(token).safeDecreaseAllowance(to, amount);
     }
 }
