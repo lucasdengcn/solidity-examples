@@ -64,3 +64,7 @@ npm install --save-dev @nomicfoundation/hardhat-ethers ethers # peer dependencie
 ## Reference
 
 [Discussion 6151 on Receive Test](https://github.com/smartcontractkit/full-blockchain-solidity-course-js/discussions/6151)
+
+## Blog
+
+https://abhik.hashnode.dev/
