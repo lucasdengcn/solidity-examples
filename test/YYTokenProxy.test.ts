@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { ethers, upgrades } from "hardhat";
 
 
-describe("YYTokenProxy", async function () {
+describe("YYTokenTransparentProxy", async function () {
     //
     let yyTokenContract: any;
     let yyTokenContractV2: any;
