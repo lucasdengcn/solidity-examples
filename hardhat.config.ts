@@ -1,11 +1,12 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
+import "@nomicfoundation/hardhat-ethers";
+import '@openzeppelin/hardhat-upgrades';
+
 import { HardhatUserConfig, task, vars } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 import "@nomicfoundation/hardhat-foundry";
-
-require('@openzeppelin/hardhat-upgrades');
 
 // const ETHERSCAN_API_KEY =  vars.get("ETHERSCAN_API_KEY")
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || vars.get("ETHERSCAN_API_KEY")
