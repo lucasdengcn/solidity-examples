@@ -36,11 +36,24 @@ npx hardhat vars set INFURA_API_KEY
 ```shell
 npm install dotenv
 npm install @openzeppelin/contracts
+npm install @openzeppelin/contracts-upgradeable
 npm add @uniswap/v3-periphery @uniswap/v3-core
+
 ```
+
+## Testing
 
 ```shell
 npm install @uniswap/permit2-sdk
+```
+
+## Plugins
+
+```shell
+
+npm install --save-dev @openzeppelin/hardhat-upgrades
+npm install --save-dev @nomicfoundation/hardhat-ethers ethers # peer dependencies
+
 ```
 
 

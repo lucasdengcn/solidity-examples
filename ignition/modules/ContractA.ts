@@ -5,9 +5,9 @@ import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
 
 const ContractAModule = buildModule("ContractAModule", (m) => {
 
-  const lock = m.contract("ContractA", [50]);
+  const contract = m.contract("ContractA", [50]);
 
-  return { lock };
+  return { contract };
 });
 
 export default ContractAModule;
