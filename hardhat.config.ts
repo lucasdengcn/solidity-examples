@@ -7,6 +7,7 @@ import "@nomiclabs/hardhat-solhint";
 
 import 'hardhat-abi-exporter';
 import "hardhat-tracer";
+import "hardhat-gas-reporter";
 
 import { HardhatUserConfig, task, vars } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
@@ -51,11 +52,10 @@ const config: HardhatUserConfig = {
   mocha: {
     timeout: 40000
   },
-  // gasReporter: {
-  //   // trackGasDeltas: process.env.GAS_GOLF === "true",
-  //   // currencyDisplayPrecision: 8,
-  //   // showMethodSig: true
-  // }
+  gasReporter: {
+    showMethodSig: true,
+    showTimeSpent: true
+  }
 };
 
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
