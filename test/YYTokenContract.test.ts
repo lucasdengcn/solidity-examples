@@ -1,6 +1,5 @@
 import { expect } from "chai";
 import { ignition, ethers } from "hardhat";
-import hre from "hardhat";
 
 import YYTokenProxyModule from "../ignition/modules/YYTokenProxyModule";
 import YYTokenUpgradeModule from "../ignition/modules/YYTokenUpgradeModule";
