@@ -9,12 +9,13 @@ describe("AppleModule", function () {
     let proxy0: any;
     //
     before(async function () {
+        //
         const {contract, proxy} = await ignition.deploy(AppleContractProxyModule);
         contractV1 = contract;
         proxy0 = proxy;
         //
-        // console.log("proxy: ", await proxy.getAddress());
-        // console.log("contract: ", await contract.getAddress());
+        //console.log("proxy: ", proxy);
+        //console.log("contract: ", contract);
     });
 
     it("Should be interactable via proxy", async function () {

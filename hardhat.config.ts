@@ -25,6 +25,10 @@ const config: HardhatUserConfig = {
       url: "http://127.0.0.1:8545"
     },
     hardhat: {
+      // accounts: {
+      //   mnemonic: process.env.SEED_PHRASE,
+      // },
+      chainId: 31337,
     },
     sepolia: {
       url: `https://sepolia.infura.io/v3/${INFURA_API_KEY}`,

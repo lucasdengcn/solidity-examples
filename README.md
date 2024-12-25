@@ -49,6 +49,12 @@ npm add @uniswap/v3-periphery @uniswap/v3-core
 npm install @uniswap/permit2-sdk
 ```
 
+```shell
+npx hardhat ignition deploy ./ignition/modules/AppleContractProxyModule.ts --network localhost
+npx hardhat ignition deploy ./ignition/modules/AppleContractUpgradeModule.ts --network localhost
+```
+
+
 ## Plugins
 
 ```shell
