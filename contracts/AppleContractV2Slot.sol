@@ -33,7 +33,8 @@ contract AppleContractV2Slot is Initializable, OwnableUpgradeable, UUPSUpgradeab
         return "2.0.0";
     }
 
-    function changePrice(uint256 newPrice) public virtual {
-        price0 = newPrice;
+    function changePrice(uint256 newPrice) public virtual returns (uint256) {
+        price1 = newPrice;
+        return price1;
     }
 }

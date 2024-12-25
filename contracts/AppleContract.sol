@@ -33,7 +33,8 @@ contract AppleContract is Initializable, OwnableUpgradeable, UUPSUpgradeable {
         return "1.0.0";
     }
 
-    function changePrice(uint256 newPrice) public virtual {
+    function changePrice(uint256 newPrice) public virtual returns (uint256) {
         price0 = newPrice;
+        return price0;
     }
 }

@@ -21,7 +21,7 @@ describe("AppleUUPSProxy via Storage Gap", async function () {
         contract = contract_;
         //
         const event = contract.getEvent("Initialized");
-        ethers.provider.on(event, (event:any) => {
+        contract.on(event, (event:any) => {
             // Emitted whenever a token transfer occurs
             console.log("event: ", event);
         });
@@ -38,7 +38,9 @@ describe("AppleUUPSProxy via Storage Gap", async function () {
             expect(await contract.connect(user1).price0()).to.equal(10);
         });
         it("Should change Price0 be 15", async function () {
-            expect(await contract.connect(user1).changePrice(15)).not.to.be.reverted;
+            // resp is ContractTransactionResponse
+            const resp = await contract.connect(user1).changePrice(15);
+            console.log(resp.data);
             expect(await contract.connect(user1).price0()).to.equal(15);
         });
         //

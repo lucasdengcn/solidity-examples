@@ -23,7 +23,8 @@ contract AppleContractV2 is AppleContract {
         return "2.0.0";
     }
 
-    function changePrice(uint256 newPrice) public virtual override {
+    function changePrice(uint256 newPrice) public virtual override returns (uint256) {
         price1 = newPrice;
+        return price1;
     }
 }
