@@ -6,7 +6,7 @@ import '@openzeppelin/hardhat-upgrades';
 import "@nomiclabs/hardhat-solhint";
 
 import 'hardhat-abi-exporter';
-
+import "hardhat-tracer";
 
 import { HardhatUserConfig, task, vars } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";

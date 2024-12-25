@@ -52,6 +52,7 @@ npm install @uniswap/permit2-sdk
 ## Plugins
 
 ```shell
+npm install --save-dev hardhat-tracer
 npm install --save-dev hardhat-abi-exporter
 npm install --save-dev @nomiclabs/hardhat-solhint
 # npm install --save-dev hardhat-gas-reporter 

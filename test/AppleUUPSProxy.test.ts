@@ -20,6 +20,11 @@ describe("AppleUUPSProxy via Storage Gap", async function () {
         await contract_.waitForDeployment();
         contract = contract_;
         //
+        const event = contract.getEvent("Initialized");
+        ethers.provider.on(event, (event:any) => {
+            // Emitted whenever a token transfer occurs
+            console.log("event: ", event);
+        });
     })
     //
     describe("V1 Cases", async function () {
