@@ -10,7 +10,7 @@ describe("YYTokenUUPSProxy", async function () {
     //
     before(async function () {
         [owner, user1, user2] = await ethers.getSigners();
-        const yyTokenContractFactory = await ethers.getContractFactory("YYTokenContractV1");
+        const yyTokenContractFactory = await ethers.getContractFactory("YYTokenContractV1UUPS");
         const contract = await upgrades.deployProxy(yyTokenContractFactory,
             [owner.address],
             {
@@ -74,7 +74,7 @@ describe("YYTokenUUPSProxy", async function () {
         describe("Performing upgrade to V2", async function () {
             //
             it("Should upgrade validation be ok", async function () {
-                const yyTokenContractV2Factory = await ethers.getContractFactory("YYTokenContractV2");
+                const yyTokenContractV2Factory = await ethers.getContractFactory("YYTokenContractV2UUPS");
                 await upgrades.validateUpgrade(yyTokenContract, yyTokenContractV2Factory, {
                     unsafeAllowRenames: true,
                     unsafeSkipStorageCheck: false,
@@ -83,7 +83,7 @@ describe("YYTokenUUPSProxy", async function () {
             });
             //
             it("Should upgrade successfully", async function () {
-                const yyTokenContractV2Factory = await ethers.getContractFactory("YYTokenContractV2");
+                const yyTokenContractV2Factory = await ethers.getContractFactory("YYTokenContractV2UUPS");
                 yyTokenContractV2 = await upgrades.upgradeProxy(yyTokenContract, yyTokenContractV2Factory, { call: { fn: "upgratePostEvent", args: [] } });
                 expect(await yyTokenContractV2.version()).to.equal("2.0.0");
                 expect(await yyTokenContractV2.getAddress()).to.equal(await yyTokenContract.getAddress());

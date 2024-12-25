@@ -6,7 +6,7 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20PermitUpgradeable.sol";
 
-contract YYTokenContractV1 is Initializable, OwnableUpgradeable, ERC20PermitUpgradeable {
+contract YYTokenContractV1UUPS is Initializable, OwnableUpgradeable, ERC20PermitUpgradeable, UUPSUpgradeable {
     // stat
     /// @custom:storage-location erc7201:YYTokenContract.storage.Stat
     struct StatStorage {
@@ -25,8 +25,11 @@ contract YYTokenContractV1 is Initializable, OwnableUpgradeable, ERC20PermitUpgr
         __ERC20_init("YYToken", "YYT");
         __Ownable_init(initialOwner);
         __ERC20Permit_init("YYToken");
+        __UUPSUpgradeable_init();
         super._mint(msg.sender, 1000000);
     }
+
+    function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
 
     // storage location
     // keccak256(abi.encode(uint256(keccak256("YYTokenContract.storage.Stat")) - 1)) & ~bytes32(uint256(0xff))

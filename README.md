@@ -10,6 +10,8 @@ npx hardhat test
 REPORT_GAS=true npx hardhat test
 npx hardhat node
 npx hardhat ignition deploy ./ignition/modules/Lock.ts
+npx hardhat check
+npx hardhat export-abi
 ```
 
 Vars
@@ -50,7 +52,9 @@ npm install @uniswap/permit2-sdk
 ## Plugins
 
 ```shell
-
+npm install --save-dev hardhat-abi-exporter
+npm install --save-dev @nomiclabs/hardhat-solhint
+# npm install --save-dev hardhat-gas-reporter 
 npm install --save-dev @openzeppelin/hardhat-upgrades
 npm install --save-dev @nomicfoundation/hardhat-ethers ethers # peer dependencies
 

@@ -3,6 +3,10 @@ dotenv.config();
 
 import "@nomicfoundation/hardhat-ethers";
 import '@openzeppelin/hardhat-upgrades';
+import "@nomiclabs/hardhat-solhint";
+
+import 'hardhat-abi-exporter';
+
 
 import { HardhatUserConfig, task, vars } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
@@ -46,7 +50,12 @@ const config: HardhatUserConfig = {
   },
   mocha: {
     timeout: 40000
-  }
+  },
+  // gasReporter: {
+  //   // trackGasDeltas: process.env.GAS_GOLF === "true",
+  //   // currencyDisplayPrecision: 8,
+  //   // showMethodSig: true
+  // }
 };
 
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {

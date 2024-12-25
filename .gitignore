@@ -18,3 +18,4 @@ ignition/deployments
 lib/
 out/
 cache_forge/
+abi/
