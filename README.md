@@ -79,3 +79,9 @@ npm install --save-dev @nomicfoundation/hardhat-ethers ethers # peer dependencie
 ## Blog
 
 https://abhik.hashnode.dev/
+
+## The Graph
+
+```shell
+npm install -g @graphprotocol/graph-cli@latest
+```
