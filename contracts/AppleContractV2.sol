@@ -1,10 +1,6 @@
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
 pragma solidity >=0.8.0 <0.9.0;
 
-import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
-
 import "./AppleContract.sol";
 
 /// @custom:oz-upgrades-from AppleContract
@@ -26,7 +22,7 @@ contract AppleContractV2 is AppleContract {
     function changePrice(uint256 newPrice) public virtual override returns (bool) {
         uint256 priceOld = price1;
         price1 = newPrice;
-        emit PriceChangedSuccess(newPrice, priceOld);
+        emit PriceChangedSuccess(_msgSender(), newPrice, priceOld);
         return true;
     }
 }

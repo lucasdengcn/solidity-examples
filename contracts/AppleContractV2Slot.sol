@@ -4,9 +4,10 @@ pragma solidity >=0.8.0 <0.9.0;
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol";
 
 /// @custom:oz-upgrades-from AppleContract
-contract AppleContractV2Slot is Initializable, OwnableUpgradeable, UUPSUpgradeable {
+contract AppleContractV2Slot is Initializable, ContextUpgradeable, OwnableUpgradeable, UUPSUpgradeable {
     // defined in V1
     uint256 public appleCount;
     uint256 public price0;
@@ -33,12 +34,12 @@ contract AppleContractV2Slot is Initializable, OwnableUpgradeable, UUPSUpgradeab
         return "2.0.0";
     }
 
-    event PriceChangedSuccess(uint256 newPrice, uint256 oldPrice);
+    event PriceChangedSuccess(address indexed editor, uint256 indexed newPrice, uint256 indexed oldPrice);
 
     function changePrice(uint256 newPrice) public virtual returns (bool) {
         uint256 priceOld = price0;
         price1 = newPrice;
-        emit PriceChangedSuccess(newPrice, priceOld);
+        emit PriceChangedSuccess(_msgSender(), newPrice, priceOld);
         return true;
     }
 }

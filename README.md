@@ -67,7 +67,6 @@ npm install --save-dev @nomicfoundation/hardhat-ethers ethers # peer dependencie
 
 ```
 
-
 ## Solidity Cheatsheet
 
 [Cheatsheet](https://docs.soliditylang.org/en/develop/cheatsheet.html)
@@ -75,6 +74,7 @@ npm install --save-dev @nomicfoundation/hardhat-ethers ethers # peer dependencie
 ## Reference
 
 [Discussion 6151 on Receive Test](https://github.com/smartcontractkit/full-blockchain-solidity-course-js/discussions/6151)
+[Graph](https://github.com/graphprotocol/hardhat-graph)
 
 ## Blog
 
@@ -85,3 +85,21 @@ https://abhik.hashnode.dev/
 ```shell
 npm install -g @graphprotocol/graph-cli@latest
 ```
+
+## Chainlink Starter kit
+
+https://github.com/smartcontractkit/hardhat-starter-kit
+
+```shell
+
+```
+
+## Tools
+
+### lint-staged
+
+Run linters against staged git files.
+
+## Husky
+
+a popular choice for configuring git hooks to run lint-staged
