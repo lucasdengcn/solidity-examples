@@ -40,6 +40,8 @@ npm install dotenv
 npm install @openzeppelin/contracts
 npm install @openzeppelin/contracts-upgradeable
 npm add @uniswap/v3-periphery @uniswap/v3-core
+## chainlink automation
+npm install @chainlink/contracts --save
 
 ```
 
