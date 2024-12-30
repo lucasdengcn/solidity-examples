@@ -1,55 +1,78 @@
-// web3-functions/oracle/index.ts
+// web3-functions/event-listener/index.ts
 import {
   Web3Function
 } from "@gelatonetwork/web3-functions-sdk";
 import { Contract } from "@ethersproject/contracts";
-import ky from "ky";
-var ORACLE_ABI = [
-  "function lastUpdated() external view returns(uint256)",
-  "function updatePrice(uint256)"
-];
+var MAX_RANGE = 100;
+var MAX_REQUESTS = 100;
+var ORACLE_ABI = ["event PriceUpdated(uint256 indexed timeStamp, uint256 price)"];
+var COUNTER_ABI = ["function increaseCount(uint256)"];
 Web3Function.onRun(async (context) => {
-  const { userArgs, multiChainProvider, gelatoArgs } = context;
-  console.log(`chainId: ${gelatoArgs.chainId}, gasPrice: ${gelatoArgs.gasPrice}, taskId: ${gelatoArgs.taskId}`);
+  const { userArgs, storage, multiChainProvider } = context;
   const provider = multiChainProvider.default();
-  const url = provider.connection.url;
-  console.log(`Provider URL: ${url}`);
   const oracleAddress = userArgs.oracle;
-  let lastUpdated;
-  let oracle;
-  try {
-    oracle = new Contract(oracleAddress, ORACLE_ABI, provider);
-    lastUpdated = parseInt(await oracle.lastUpdated());
-    console.log(`Last update time: ${lastUpdated}`);
-  } catch (error) {
-    return { canExec: false, message: `Error retrieving last update time: ${error}` };
+  const counterAddress = userArgs.counter;
+  const oracle = new Contract(oracleAddress, ORACLE_ABI, provider);
+  const counter = new Contract(counterAddress, COUNTER_ABI, provider);
+  const topics = [oracle.interface.getEventTopic("PriceUpdated")];
+  const currentBlock = await provider.getBlockNumber();
+  const lastBlockStr = await storage.get("lastBlockNumber");
+  let lastBlock = lastBlockStr ? parseInt(lastBlockStr) : currentBlock - 2e3;
+  let totalEvents = parseInt(await storage.get("totalEvents") ?? "0");
+  console.log(`Last processed block: ${lastBlock}`);
+  console.log(`Total events matched: ${totalEvents}`);
+  const logs = [];
+  let nbRequests = 0;
+  while (lastBlock < currentBlock && nbRequests < MAX_REQUESTS) {
+    nbRequests++;
+    const fromBlock = lastBlock + 1;
+    const toBlock = Math.min(fromBlock + MAX_RANGE, currentBlock);
+    console.log(`Fetching log events from blocks ${fromBlock} to ${toBlock}`);
+    try {
+      const eventFilter = {
+        address: oracleAddress,
+        topics,
+        fromBlock,
+        toBlock
+      };
+      const result = await provider.getLogs(eventFilter);
+      logs.push(...result);
+      lastBlock = toBlock;
+    } catch (err) {
+      console.error(`Failed to fetch logs:`, err);
+      return {
+        canExec: false,
+        message: `Rpc call failed: ${err.message}`
+      };
+    }
   }
-  const nextUpdateTime = lastUpdated + 600;
-  const timestamp = (await provider.getBlock("latest")).timestamp;
-  console.log(`Current time: ${timestamp}`);
-  console.log(`Next update time: ${nextUpdateTime}`);
-  if (timestamp < nextUpdateTime) {
-    return { canExec: false, message: "Not ready for a new update" };
+  console.log(`Matched ${logs.length} new events`);
+  const nbNewEvents = logs.length;
+  totalEvents += logs.length;
+  for (const log of logs) {
+    const event = oracle.interface.parseLog(log);
+    const [time, price] = event.args;
+    console.log(
+      `Price updated: ${price}$ at ${new Date(time * 1e3).toUTCString()}`
+    );
   }
-  const currency = userArgs.currency ?? "ethereum";
-  let price = 0;
-  try {
-    const coingeckoApi = await context.secrets.get("COINGECKO_API");
-    if (!coingeckoApi)
-      return { canExec: false, message: `COINGECKO_API not set in secrets` };
-    const coingeckoSimplePriceApi = `${coingeckoApi}/simple/price?ids=${currency}&vs_currencies=usd`;
-    console.log(`Coingecko API: ${coingeckoSimplePriceApi}`);
-    const priceData = await ky.get(coingeckoSimplePriceApi, { timeout: 5e3, retry: 0 }).json();
-    price = Math.floor(priceData[currency].usd);
-  } catch (error) {
-    return { canExec: false, message: `Error retrieving price: ${error}` };
+  await storage.set("lastBlockNumber", currentBlock.toString());
+  await storage.set("totalEvents", totalEvents.toString());
+  if (nbNewEvents === 0) {
+    return {
+      canExec: false,
+      message: `Total events matched: ${totalEvents} (at block #${currentBlock.toString()})`
+    };
   }
-  console.log(`Updating Price: ${price}`);
   return {
     canExec: true,
-    callData: [{
-      to: oracleAddress,
-      data: oracle.interface.encodeFunctionData("updatePrice", [price])
-    }]
+    callData: [
+      {
+        to: counterAddress,
+        data: counter.interface.encodeFunctionData("increaseCount", [
+          nbNewEvents
+        ])
+      }
+    ]
   };
 });
