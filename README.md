@@ -33,6 +33,11 @@ npx hardhat vars set INFURA_API_KEY
 
 [Foundry](https://hardhat.org/hardhat-runner/docs/advanced/hardhat-and-foundry)
 
+```shell
+npx hardhat init-foundry
+npx hardhat test
+```
+
 ## Dependencies
 
 ```shell
@@ -42,7 +47,6 @@ npm install @openzeppelin/contracts-upgradeable
 npm add @uniswap/v3-periphery @uniswap/v3-core
 ## chainlink automation
 npm install @chainlink/contracts --save
-
 ```
 
 ## Testing
@@ -105,3 +109,25 @@ Run linters against staged git files.
 ## Husky
 
 a popular choice for configuring git hooks to run lint-staged
+
+## Permit2 Integration
+
+https://github.com/KennieHarold/permit2-integration
+
+### Install Forge
+
+```shell
+# or setup manually
+git submodule add https://github.com/foundry-rs/forge-std lib/forge-std
+cd lib/forge-std
+forge install
+```
+
+### Install Permit2
+
+```shell
+git submodule add https://github.com/Uniswap/permit2 lib/permit2
+cd lib/permit2
+forge install
+forge build
+```
