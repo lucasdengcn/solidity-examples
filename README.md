@@ -1,8 +1,26 @@
-# Sample Hardhat Project
+# Sample Solidity Project
 
 This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
 
-Try running some of the following tasks:
+## Tech Stack
+
+- Solidity
+- ERC20
+- EIP-2612 (ERC20 Permit)
+- ERC20 Permit2
+- EIP-3009
+- UUPS Proxy pattern
+- TransparentUpgradeableProxy
+- Error Handling
+- Assembly Opcodes
+- ERC2771 Forwarder (Relayer, Meta Tx)
+- OwnableUpgradeable
+- ReentrancyGuardUpgradeable
+- Namespaced StorageLayout
+- Storage Gap Pattern
+- SafeERC20
+
+## Hardhat basic commands
 
 ```shell
 npx hardhat help
@@ -60,7 +78,6 @@ npx hardhat ignition deploy ./ignition/modules/AppleContractProxyModule.ts --net
 npx hardhat ignition deploy ./ignition/modules/AppleContractUpgradeModule.ts --network localhost
 ```
 
-
 ## Plugins
 
 ```shell
@@ -84,7 +101,7 @@ npm install --save-dev @nomicfoundation/hardhat-ethers ethers # peer dependencie
 
 ## Blog
 
-https://abhik.hashnode.dev/
+<https://abhik.hashnode.dev/>
 
 ## The Graph
 
@@ -94,7 +111,7 @@ npm install -g @graphprotocol/graph-cli@latest
 
 ## Chainlink Starter kit
 
-https://github.com/smartcontractkit/hardhat-starter-kit
+<https://github.com/smartcontractkit/hardhat-starter-kit>
 
 ```shell
 
@@ -112,7 +129,7 @@ a popular choice for configuring git hooks to run lint-staged
 
 ## Permit2 Integration
 
-https://github.com/KennieHarold/permit2-integration
+<https://github.com/KennieHarold/permit2-integration>
 
 ### Install Forge
 
