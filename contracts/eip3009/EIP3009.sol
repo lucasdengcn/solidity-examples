@@ -10,10 +10,17 @@ import { IEIP3009 } from "./IEIP3009.sol";
 
 // Basic of EIP3009 for testing purposes ONLY.
 abstract contract EIP3009 is EIP3009Internals, IEIP3009, ReentrancyGuard {
+    // constructor
+    constructor(
+        string memory name,
+        string memory symbol,
+        string memory version
+    ) EIP3009Internals(name, symbol, version) {}
+
     /**
      * @notice Execute a transfer with a signed authorization
-     * @param from          Payer's address (Authorizer)
-     * @param to            Payee's address
+     * @param from          Owner's address (Authorizer)
+     * @param to            Receiver's address
      * @param value         Amount to be transferred
      * @param validAfter    The time after which this is valid (unix time)
      * @param validBefore   The time before which this is valid (unix time)
@@ -37,11 +44,11 @@ abstract contract EIP3009 is EIP3009Internals, IEIP3009, ReentrancyGuard {
     }
 
     /**
-     * @notice Receive a transfer with a signed authorization from the payer
-     * @dev This has an additional check to ensure that the payee's address
+     * @notice Receive a transfer with a signed authorization from the Owner
+     * @dev This has an additional check to ensure that the Receiver's address
      * matches the caller of this function to prevent front-running attacks.
-     * @param from          Payer's address (Authorizer)
-     * @param to            Payee's address
+     * @param from          Owner's address (Authorizer)
+     * @param to            Receiver's address
      * @param value         Amount to be transferred
      * @param validAfter    The time after which this is valid (unix time)
      * @param validBefore   The time before which this is valid (unix time)

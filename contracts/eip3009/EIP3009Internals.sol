@@ -13,6 +13,7 @@ import { IEIP3009 } from "./IEIP3009.sol";
  * @dev Contracts that inherit from this must wrap these with publicly
  * accessible functions, optionally adding modifiers where necessary
  */
+
 abstract contract EIP3009Internals is ERC20, EIP712 {
     // keccak256("TransferWithAuthorization(address from,address to,uint256 value,uint256 validAfter,uint256 validBefore,bytes32 nonce)")
     bytes32 public constant TRANSFER_WITH_AUTHORIZATION_TYPEHASH =
@@ -31,7 +32,11 @@ abstract contract EIP3009Internals is ERC20, EIP712 {
      *
      * It's a good idea to use the same `name` that is defined as the ERC-20 token name.
      */
-    constructor(string memory name) EIP712(name, "1") {}
+    constructor(
+        string memory name,
+        string memory symbol,
+        string memory version
+    ) ERC20(name, symbol) EIP712(name, version) {}
 
     /**
      * @dev authorizer address => nonce => bool (true if nonce is used)
@@ -186,18 +191,17 @@ abstract contract EIP3009Internals is ERC20, EIP712 {
     /**
      * @notice Verify a signature
      * @param data      Data signed
-     * @param owner     Signer's address
+     * @param exptect     exptect address
      * @param v         v of the signature
      * @param r         r of the signature
      * @param s         s of the signature
      */
-    function _verifySignature(bytes memory data, address owner, uint8 v, bytes32 r, bytes32 s) internal view {
+    function _verifySignature(bytes memory data, address exptect, uint8 v, bytes32 r, bytes32 s) internal view {
         //
         bytes32 hash = _hashTypedDataV4(keccak256(data));
-
         address signer = ECDSA.recover(hash, v, r, s);
-        if (signer != owner) {
-            revert ERC3009InvalidSigner(signer, owner);
+        if (signer != exptect) {
+            revert ERC3009InvalidSigner(signer, exptect);
         }
     }
 
