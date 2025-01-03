@@ -19,7 +19,7 @@ describe("Helpers", function () {
 
     it("Should generate storage location", async function () {
         const { contract, owner, user1, user2 } = await loadFixtureContracts();
-        const resp = await contract.storageLocation("YYTokenContract.storage.Stat");
+        const resp = await contract.storageLocation("BankApp.storage.TermVault01");
         console.log(resp);
     });
 
