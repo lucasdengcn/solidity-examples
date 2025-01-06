@@ -148,3 +148,9 @@ cd lib/permit2
 forge install
 forge build
 ```
+
+## Deployment via Create2
+
+<https://hardhat.org/ignition/docs/guides/create2>
+
+<https://github.com/pcaversaccio/createx>

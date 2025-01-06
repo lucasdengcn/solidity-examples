@@ -1,8 +1,8 @@
 npx hardhat clean && npx hardhat compile && npx hardhat export-abi
 
 # deploy contracts
-npx hardhat ignition deploy ./ignition/modules/AppleContractProxyModule.ts --network localhost
-npx hardhat ignition deploy ./ignition/modules/AppleContractUpgradeModule.ts --network localhost
+npx hardhat ignition deploy ./ignition/modules/AppleContractProxyModule.ts --network localhost --strategy create2
+npx hardhat ignition deploy ./ignition/modules/AppleContractUpgradeModule.ts --network localhost --strategy create2
 
 # deploy abi to TheGraph
 cp -fr abi/contracts/AppleContract.sol/AppleContract.json ../subgraph001/abis/AppleContract.json

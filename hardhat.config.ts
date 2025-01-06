@@ -254,6 +254,14 @@ const config: HardhatUserConfig = {
     debug: true,
     networks: ["ethereum", "sepolia", "hardhat", "localhost", "amoy"],
   },
+  ignition: {
+    strategyConfig: {
+      create2: {
+        // To learn more about salts, see the CreateX documentation
+        salt: "0xdff28ae068e1b163cf0510b14c6194f5142dcfb563cea2dc42556621ef87d2d1",
+      },
+    },
+  },
 };
 
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {

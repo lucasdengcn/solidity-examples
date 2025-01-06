@@ -88,4 +88,6 @@ contract GldToken is ERC20Permit {
         super.permit(sender, spender, value, deadline, v, r, s);
         super._transfer(sender, spender, value);
     }
+
+    function borrow() public {}
 }

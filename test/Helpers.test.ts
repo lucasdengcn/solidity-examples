@@ -23,4 +23,10 @@ describe("Helpers", function () {
         console.log(resp);
     });
 
+    it("Should generate create2 salt", async function () {
+        const { contract, owner, user1, user2 } = await loadFixtureContracts();
+        const resp = await contract.generateCreate2Salt();
+        console.log(resp);
+    });
+
 });
