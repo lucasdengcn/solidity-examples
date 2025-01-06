@@ -4,7 +4,8 @@ This project demonstrates a basic Hardhat use case. It comes with a sample contr
 
 ## Tech Stack
 
-- Solidity
+- Solidity 0.8.0
+- Openzeppelin 5.1.x
 - ERC20
 - EIP-2612 (ERC20 Permit)
 - ERC20 Permit2
@@ -67,6 +68,10 @@ npm add @uniswap/v3-periphery @uniswap/v3-core
 npm install @chainlink/contracts --save
 ```
 
+uniswap-v3 depends on openzeppelin-3.3.x
+
+openzeppelin 4.0 above breaks compability.
+
 ## Testing
 
 ```shell
@@ -87,6 +92,7 @@ npm install --save-dev @nomiclabs/hardhat-solhint
 # npm install --save-dev hardhat-gas-reporter 
 npm install --save-dev @openzeppelin/hardhat-upgrades
 npm install --save-dev @nomicfoundation/hardhat-ethers ethers # peer dependencies
+npm install --save-dev @solidstate/hardhat-bytecode-exporter
 
 ```
 

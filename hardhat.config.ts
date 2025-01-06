@@ -11,6 +11,8 @@ import "@gelatonetwork/web3-functions-sdk/hardhat-plugin";
 // import "@matterlabs/hardhat-zksync-solc";
 // import "@matterlabs/hardhat-zksync-verify";
 
+import '@solidstate/hardhat-bytecode-exporter';
+
 import 'hardhat-abi-exporter';
 import "hardhat-tracer";
 import "hardhat-gas-reporter";
@@ -32,10 +34,7 @@ const config: HardhatUserConfig = {
     },
     hardhat: {
       // forking: {
-      //   url: "https://sepolia.infura.io/v3/${INFURA_ID}",
-      // },
-      // accounts: {
-      //   mnemonic: process.env.SEED_PHRASE,
+      //   url: `https://sepolia.infura.io/v3/${INFURA_ID}`,
       // },
       chainId: 31337,
     },
@@ -228,11 +227,11 @@ const config: HardhatUserConfig = {
     apiKey: ETHERSCAN_API_KEY,
   },
   solidity: {
-    version: "0.8.28",
+    version: "0.8.0",
     settings: {
       optimizer: {
         enabled: true,
-        runs: 200
+        runs: 2000
       }
     }
   },
