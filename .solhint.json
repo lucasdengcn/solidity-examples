@@ -1,11 +1,21 @@
 {
   "extends": "solhint:recommended",
-  "plugins": [],
+  "plugins": [
+    "prettier"
+  ],
   "rules": {
     "avoid-suicide": "error",
     "avoid-sha3": "warn",
     "no-console": "warn",
-    "compiler-version": ["error", "^0.8.0"],
-    "func-visibility": ["warn", { "ignoreConstructors": true }]
+    "compiler-version": [
+      "warn",
+      "^0.8.0"
+    ],
+    "func-visibility": [
+      "warn",
+      {
+        "ignoreConstructors": true
+      }
+    ]
   }
 }
